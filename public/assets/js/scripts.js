@@ -2,7 +2,7 @@ $( document ).ready(function() {
     var getComments = function(event){
         var parentNode = event.target.parentNode;
         var getInputs = parentNode.querySelectorAll('input.hiddenIds');
-    
+        $(".prevComments").empty();
        $.each(getInputs, function( index, element ) {
            if(element.value!== false ){
                 $.ajax({

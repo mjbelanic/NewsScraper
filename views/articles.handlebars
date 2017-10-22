@@ -37,13 +37,13 @@
                             <input class="hiddenIds" type="hidden" value="{{this}}" >
                         {{/each}}
                         {{#unless this.saved}}
-                            <form action="saved/{{this._id}}" method="PUT">
+                            <form action="saved/{{this._id}}" method="POST">
                                 <input type="hidden" name="saved" value="false"/>
                                 <button type="submit" class="btn btn-success saveButton">Save</button>
                             </form>
                         {{/unless}}
                         {{#if this.saved}}
-                        <form action="saved/{{this._id}}" method="PUT">
+                        <form action="saved/{{this._id}}" method="POST">
                                 <input type="hidden" name="saved" value="true"/>
                                 <button type="submit" class="btn btn-warning saveButton">Stop Saving</button>
                         </form>

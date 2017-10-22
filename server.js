@@ -88,33 +88,38 @@ app.get("/articles", function(req, res) {
   
   // Create a new note or replace an existing note
   app.post("/saved/:id", function(req, res) {
-    // Create a new note and pass the req.body to the entry
-    var article = new Article(req.body);
-  
-    // And save the new note the db
-    newComment.save(function(error, doc) {
-      // Log any errors
-      if (error) {
-        console.log(error);
-      }
-      // Otherwise
-      else {
-        // Use the article id to find and update it's note
-        Article.findOneAndUpdate({ "_id": req.params.id }, { "note": doc._id })
-        // Execute the above query
-        .exec(function(err, doc) {
-          // Log any errors
-          if (err) {
-            console.log(err);
-          }
-          else {
-            // Or send the document to the browser
-            res.redirect("/articles");
-          }
-        });
-      }
-    });
-  });
+    if(req.body.saved){
+      Article.findById(req.params.id, function(err, results){
+        if(err){
+          console.log(err);
+        }else{
+          results.save({"saved":false});
+          results.update(function(err, updatedResults){
+            if(err){
+              console.log(err);
+            }else{
+              res.redirect("/articles");
+            }
+          })
+        }
+      });
+    }else{
+      Article.findById(req.params.id, function(err, results){
+        if(err){
+          console.log(err);
+        }else{
+          results.save({"saved":true});
+          results.update(function(err, updatedResults){
+            if(err){
+              console.log(err);
+            }else{
+              res.redirect("/articles");
+            }
+          })
+        }
+      });
+    }
+});
 
 // Create a new note or replace an existing note
 app.get("/comments/:id", function(req, res) {
