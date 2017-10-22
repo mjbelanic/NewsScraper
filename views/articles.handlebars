@@ -1,0 +1,89 @@
+<html>
+<body>
+    <!-- Navbar -->
+    <nav class="fixed-top navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" id="home-button" href="/">Articles</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive"
+                aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+    </nav>
+
+    <br>
+
+    <div class="container">
+        <div class="jumbotron">
+            <div class="row">
+                <h1>C# Corner News Scraper</h1>
+            </div>
+        </div>
+        {{#each articles}}
+        <div class="row">
+            <div class="panel-group">        
+                <div class="panel panel-primary col-12">
+                    <div class="panel-heading">
+                        <h3>{{ this.title}}</h3>
+                    </div>
+                    <div class="panel-body">
+                        <a href="{{this.link}}">{{ this.link }}</a>
+                        <p> By: {{this.author}}</p><br/>
+                        <button id="commentGetter" type="button" class="btn btn-primary commentButton" data-toggle="modal" data-target="#commentModal">
+                            Comment
+                        </button>
+
+                        {{#each this.comment}}
+                            <input class="hiddenIds" type="hidden" value="{{this}}" >
+                        {{/each}}
+                        {{#unless this.saved}}
+                            <form action="saved/{{this._id}}" method="PUT">
+                                <input type="hidden" name="saved" value="false"/>
+                                <button type="submit" class="btn btn-success saveButton">Save</button>
+                            </form>
+                        {{/unless}}
+                        {{#if this.saved}}
+                        <form action="saved/{{this._id}}" method="PUT">
+                                <input type="hidden" name="saved" value="true"/>
+                                <button type="submit" class="btn btn-warning saveButton">Stop Saving</button>
+                        </form>
+                        {{/if}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+        <div id="commentModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Comments</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="prevComments"></div>
+                            <form action="comment/{{this._id}}" method="POST">
+                                <label for="title">Title</label>
+                                <br/>
+                                <input type="text" id="title" name="title"/>
+                                <br/>
+                                <label for="body">Comment</label>
+                                <br/>
+                                <textarea name="body" cols="40" rows="5"></textarea>
+                                <br/>
+                                <button id="saveComment" type="submit" class="btn btn-primary">Add Comment</button>
+                            </form>
+                            <br/>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{/each}}
+        </div>
+    </body>
+</html>
