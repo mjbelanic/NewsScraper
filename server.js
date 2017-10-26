@@ -3,7 +3,7 @@ var exphbs = require("express-handlebars");
 var bodyParser = require("body-parser");
 var mongoose = require("mongoose");
 var methodOverride = require("method-override");
-// Requiring our Note and Article models
+// Requiring Comment and Article models
 var Comment = require("./models/Note.js");
 var Article = require("./models/Article.js");
 
@@ -85,40 +85,34 @@ app.get("/articles", function(req, res) {
       }
     });
   });
+
+//find saved articles
+  app.get("/saved", function(req, res) {
+    // Grab every doc in the Articles array
+    Article.find({saved: true}, function(error, doc) {
+      // Log any errors
+      if (error) {
+        console.log(error);
+      }
+      // Or send the doc to the browser as a json object
+      else {
+        var articleList = {articles: doc}
+        res.render("articles",articleList);
+      }
+    });
+  });
   
-  // Create a new note or replace an existing note
+  // Get a document item and change its saved value to the opposite
   app.post("/saved/:id", function(req, res) {
-    if(req.body.saved){
-      Article.findById(req.params.id, function(err, results){
+    var isTrueSet = req.body.saved === "true";
+      Article.findOneAndUpdate({_id: req.params.id}, {$set:{saved: !isTrueSet}}
+      , function(err, results){
         if(err){
           console.log(err);
         }else{
-          results.save({"saved":false});
-          results.update(function(err, updatedResults){
-            if(err){
-              console.log(err);
-            }else{
-              res.redirect("/articles");
-            }
-          })
+         res.redirect("/articles");
         }
       });
-    }else{
-      Article.findById(req.params.id, function(err, results){
-        if(err){
-          console.log(err);
-        }else{
-          results.save({"saved":true});
-          results.update(function(err, updatedResults){
-            if(err){
-              console.log(err);
-            }else{
-              res.redirect("/articles");
-            }
-          })
-        }
-      });
-    }
 });
 
 // Create a new note or replace an existing note

@@ -10,3 +10,7 @@ h1{
 #saveComment{
     float: right;
 }
+
+body { 
+    padding-top: 70px; 
+}
