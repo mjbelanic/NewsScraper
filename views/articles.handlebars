@@ -16,7 +16,7 @@
                     <div class="panel-body">
                         <a href="{{this.link}}">{{ this.link }}</a>
                         <p> By: {{this.author}}</p><br/>
-                        <button type="button" class="btn btn-primary commentButton" data-toggle="modal" data-target="#commentModal">
+                        <button type="button" class="btn btn-primary commentButton" data-toggle="modal" data-target="#{{this._id}}">
                             Comment
                         </button>
 
@@ -41,7 +41,7 @@
         </div>
         
         
-        <div id="commentModal" class="modal fade" role="dialog">
+        <div id="{{this._id}}" class="modal fade" role="dialog">
             <div class="modal-dialog">
                     <!-- Modal content-->
                     <div class="modal-content">

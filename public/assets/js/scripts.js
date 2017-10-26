@@ -11,13 +11,13 @@ $( document ).ready(function() {
                 method: "GET",
                 url: "/comments/" + element.value
             }).done(function(data){
-                for(var i = 0; i < data.length; i++){
+                for(var i = 0; i < data.comment.length; i++){
                     console.log("Data: " + data.comment);
                     var htmlScript = "<h4>";
-                    htmlScript += data.comment.title;
+                    htmlScript += data.comment[i].title;
                     htmlScript += "</h4>";
                     htmlScript += "<p>"
-                    htmlScript += data.comment.body;
+                    htmlScript += data.comment[i].body;
                     htmlScript += "</p>"
                     $(".prevComments").append(htmlScript);
                 }
