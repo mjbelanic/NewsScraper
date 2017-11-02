@@ -53,7 +53,7 @@ app.get("/", function(req, res){
         var $ = cheerio.load(html);
         $("ul#RecentActivity li.media div.media-body").each(function(i, element){
             var results = {};
-            results.title = $(this).children("a").text();
+            results.title = $(this).children("a.title").text();
             results.link = $(this).children("a").attr("href");
             results.author = $(this).children("a.author").text();
 
