@@ -165,6 +165,6 @@ app.get("/comments/:id", function(req, res) {
   });
 
 //Port 3000
-app.listen(3000, function(){
+app.listen( process.env.PORT || 5000, function(){
     console.log("App running on port 3000!");
 });
